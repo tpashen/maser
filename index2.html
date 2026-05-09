@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рандомайзер малюнків</title>
+    <style>
+        /* CSS: Оформлення сторінки */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .image-display {
+            width: 100%;
+            height: 400px;
+            border: 2px dashed #444;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background-color: #252525;
+            margin-bottom: 25px;
+        }
+
+        .image-display img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: none; /* Сховано, поки не вибрано */
+        }
+
+        .placeholder-text {
+            color: #666;
+            font-style: italic;
+        }
+
+        button {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        #status-text {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Випадковий малюнок</h1>
+        
+        <div class="image-display" id="display-area">
+            <span class="placeholder-text" id="placeholder">Натисніть кнопку нижче</span>
+            <img src="" alt="Рандомне зображення" id="random-image">
+        </div>
+
+        <button onclick="pickImage()">ЗГЕНЕРУВАТИ</button>
+        
+        <p id="status-text"></p>
+    </div>
+
+    <script>
+        // JavaScript: Логіка вибору
+        function pickImage() {
+            const imageElement = document.getElementById('random-image');
+            const placeholder = document.getElementById('placeholder');
+            const statusText = document.getElementById('status-text');
+
+            // Генеруємо число від 1 до 28
+            const randomNumber = Math.floor(Math.random() * 28) + 1;
+            
+            // Шлях до файлу (файли мають бути в тій же папці)
+            const imagePath = `${randomNumber}.png`;
+
+            // Оновлюємо малюнок
+            imageElement.src = imagePath;
+            
+            // Показуємо малюнок і ховаємо текст-заглушку
+            imageElement.style.display = 'block';
+            placeholder.style.display = 'none';
+
+            // Оновлюємо статус
+            statusText.innerText = `Вибрано малюнок №${randomNumber}`;
+
+            // Обробка помилки, якщо файлу не існує
+            imageElement.onerror = function() {
+                imageElement.style.display = 'none';
+                placeholder.style.display = 'block';
+                placeholder.innerText = `Файл ${imagePath} не знайдено`;
+                statusText.innerText = "";
+            };
+        }
+    </script>
+
+</body>
+</html>
